@@ -13,11 +13,9 @@ Including another URLconf
     1. Import the include() function: from django.urls import include, path
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
-from django.contrib import admin
-from django.urls import path
-from app.views import FormView
+from django.urls import path, include
+from app.views import LoanCreateView
 
 urlpatterns = [
-    path('admin/', admin.site.urls),
-    path('',FormView.as_view()),
+    path('', LoanCreateView.as_view(), name = 'loan-create'),
 ]
