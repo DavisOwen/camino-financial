@@ -1,21 +1,32 @@
-from django.test import TestCase
+from rest_framework.test import APITestCase
+from rest_framework import status
+from django.urls import reverse
 from app.models import Loan
-from app.forms import AppForm
 
-class CreateLoan(TestCase):
+class LoanAPITestCase(APITestCase):
 
-    def create(self):
+    def test_create_loan(self):
 
-        self.loan = Loan.objects.create(name = "Name", amount = 10000, business = "food_truck", years = 1)
+        loan = Loan.objects.create(name = "Name",
+                                    amount = 10000,
+                                    business = "food_truck",
+                                    years = 1)
+        self.assertEqual(Loan.objects.count(), 1)
+        self.assertEqual(Loan.objects.get().name, "Name")
+        self.assertEqual(Loan.objects.get().amount, 10000)
+        self.assertEqual(Loan.objects.get().business, "food_truck")
+        self.assertEqual(Loan.objects.get().years, 1)
 
-class FormTest(TestCase):
+    def test_get_status(self):
 
-    def test_form_valid(self):
+        data = {}
+        url = reverse("loan-create")
+        response = self.client.get(url, data, format = "json")
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
 
-        form = AppForm(data = {"name":"Name", "amount":10000, "business" : "food_truck", "years" : 1})
-        self.assertTrue(form.is_valid())
+    def test_put_status(self):
 
-    def test_form_invalid(self):
-
-        form = AppForm(data = {"name":"", "amount":10, "business":"foo", "years": 1000})
-        self.assertFalse(form.is_valid())
+        data = {"name" : "Name", "amount" : 10, "business" : "construction", "years" : 2}
+        url = reverse("loan-create")
+        response = self.client.post(url, data, format = "json")
+        self.assertEqual(response.status_code, status.HTTP_200_OK)

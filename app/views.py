@@ -12,8 +12,8 @@ class LoanCreateView(mixins.CreateModelMixin, generics.ListAPIView):
         
         query = request.POST
         self.create(request, *args, **kwargs)
-        if int(query["amount"]) > 50000 and int(query["years"]) < 1:
+        if int(query.get("amount") or 0) > 50000 and int(query.get("years") or 0) < 1:
             return render(request, "denied.html")
-        elif int(query["amount"]) < 50000 and int(query["years"]) >= 1:
+        elif int(query.get("amount") or 0) < 50000 and int(query.get("years") or 0) >= 1:
             return render(request, "approved.html")
         return render(request, "process.html")

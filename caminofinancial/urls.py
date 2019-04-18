@@ -17,5 +17,5 @@ from django.urls import path, include
 from app.views import LoanCreateView
 
 urlpatterns = [
-    path('', LoanCreateView.as_view(), name = 'loan-create'),
+    path("", LoanCreateView.as_view(), name = "loan-create"),
 ]
