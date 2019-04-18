@@ -1,7 +1,7 @@
 # camino financial take home test
 
  Build:  
- `docker-compose build`
+ `docker-compose build`  
  Start docker instance:  
  `docker-compose up -d`  
  Shut down:  
